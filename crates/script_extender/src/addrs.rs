@@ -196,6 +196,14 @@ const ENTRIES: &[(&str, usize, [u8; 8])] = &[
     // CCQ_SET_READY_FOR_POST_BATTLE_ORDERS: FUN_141878720(pending_battle_mgr, faction, ready) =
     // post-battle Continue; fires the "all ready" event once every human faction is ready
     ("postbattle_set_ready", 0x1878720, [0x48, 0x89, 0x5c, 0x24, 0x08, 0x57, 0x48, 0x83]),
+    // notes/naval_to_land.md: FUN_1419b5d00(att, def, ambush, flag) -> u16 battle type (11..14 = sea
+    // types), stored at PB+0x68 by the PB ctor; FUN_141859890(pb) -> 2 when a commander is not on
+    // land (disables START BATTLE); FUN_141863930(pb, u8, u8, u8) builds the battle setup and asks
+    // FUN_141a67080 (MAP_CHARACTER::is_commanding_force_on_sea) once for its at_sea
+    ("battle_type_for", 0x19b5d00, [0x48, 0x89, 0x5c, 0x24, 0x08, 0x48, 0x89, 0x6c]),
+    ("pb_could_ever_play", 0x1859890, [0x40, 0x53, 0x48, 0x83, 0xec, 0x20, 0x48, 0x8b]),
+    ("pb_build_battle_setup", 0x1863930, [0x44, 0x88, 0x4c, 0x24, 0x20, 0x44, 0x88, 0x44]),
+    ("char_force_on_sea", 0x1a67080, [0x40, 0x53, 0x48, 0x83, 0xec, 0x20, 0x48, 0x8d]),
 ];
 
 /// Vtables live in .rdata and hold relocated pointers, so they are verified by the RVA of
